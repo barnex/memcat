@@ -6,7 +6,7 @@ Copy raw kernel memory to stdout.
 
 Peak in your BIOS:
 
-`sudo ./memcat -base 0x000F0000 -len 0x00010000 | strings -n 20`
+`sudo memcat -base 0x000F0000 -len 0x00010000 | strings -n 20`
 
 ```
 f=MSDOt-f=MSWIt%f=NTFSt
@@ -26,6 +26,10 @@ No Emulation Image :
 Hard Disk Image    :
 Unknown Image      :
 ```
+
+Write some data to your RAM (use at own risk, may destroy your system):
+
+`cat file.hex | xxd -r | memcat -w -base 0x0 -len 0x80`
 
 ## cross-compiling
 
