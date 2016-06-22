@@ -4,12 +4,14 @@ import (
 	"flag"
 	"fmt"
 	"golang.org/x/sys/unix"
+	"io/ioutil"
 	"os"
 )
 
 var (
 	base   = flag.Int("base", 0, "base memory address")
 	length = flag.Int("len", 0, "number of bytes to map")
+	write  = flag.Bool("w", false, "read from stdin and write to memory")
 )
 
 func main() {
@@ -32,7 +34,12 @@ func main() {
 		fatal("mmap", fd, offset, length, prot, flags, ":", err)
 	}
 
-	os.Stdout.Write(mem)
+	if *write {
+		data, _ := ioutil.ReadAll(os.Stdin)
+		copy(mem, data)
+	} else {
+		os.Stdout.Write(mem)
+	}
 
 }
 
